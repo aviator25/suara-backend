@@ -3,36 +3,61 @@ const express = require("express");
 const { buildSchema } = require("graphql");
 const graphqlHTTP = require("express-graphql");
 const cors = require("cors");
-const Champion = require("./champion");
+const User = require("./user");
 
 const schema = buildSchema(`
   type Query {
     language: String
-    getChampions: [Champion]
-    getChampionByName(name: String!): Champion
+    getUsers: [User]
+    getUserByName(name: String!): User
   }
 
   type Mutation {
-    updateAttackDamage(name: String!, attackDamage: Float): Champion
+    updateAge(name: String!, age: Int): User
   }
 
-  type Champion {
+  type User{
     name: String
-    attackDamage: Float
+    email: String
+    isMP: Boolean
+    mobNum: String
+    IC: String
+    profPic: String
+    intro: String
+    gender: String
+    age: Int
+    ADUN: String
+    isPrivate: Boolean
   }
 `);
 
-const champions = [new Champion("Ashe", 100), new Champion("Vayne", 200)];
+const users = [
+  new User(
+    "Ali",
+    "ali123@gmail.com",
+    false,
+    "012-345678",
+    "860401113457",
+    "https://upload.wikimedia.org/wikipedia/commons/8/89/Muhammad_Ali_NYWTS.jpg",
+    "I am Ali",
+    "Male",
+    40,
+    "PJ",
+    false
+  ),
+];
+
+// resolver here
 const rootValue = {
   language: () => "GraphQL",
-  getChampions: () => champions,
-  getChampionByName: ({ name }) => {
-    return champions.find((x) => x.name === name);
+  getUsers: () => users,
+  getUserByName: ({ name }) => {
+    return users.find((x) => x.name === name);
   },
-  updateAttackDamage: ({ name, attackDamage = 150 }) => {
-    const champion = champions.find((x) => x.name === name);
-    champion.attackDamage = attackDamage;
-    return champion;
+  updateAge: ({ name, age = 150 }) => {
+    const user = users.find((x) => x.name === name);
+    user.age = age;
+    return user;
   },
 };
 

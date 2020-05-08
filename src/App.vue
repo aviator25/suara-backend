@@ -1,25 +1,25 @@
 <template>
   <div id="app">
     Data:
-    <div v-for="champion in champions" :key="champion.name">
-      {{ champion }}
+    <div v-for="user in users" :key="user.name">
+      {{ user }}
     </div>
-    <button @click="getChampions">Get Champions</button>
+    <button @click="getUsers">Get users</button>
     <br />
     <br />
     <input v-model="name" />
     Data:
-    {{ championSearch }}
-    <button @click="getChampionByName">Get Champion</button>
+    {{ userSearch }}
+    <button @click="getUserByName">Get user</button>
     <br />
     <br />
-    Name: <input v-model="targetName" /> Attack Damage:
-    <input v-model.number="targetAttack" />
+    Name: <input v-model="targetName" /> Age:
+    <input v-model.number="targetAge" />
     <div>
       Data:
-      {{ updatedChampion }}
+      {{ updatedUser }}
     </div>
-    <button @click="updateAttackDamage">Update Champion</button>
+    <button @click="updateAge">Update user</button>
   </div>
 </template>
 <script>
@@ -29,58 +29,75 @@ export default {
   data() {
     return {
       /* ... */
-      champions: [],
-      championSearch: {},
       name: "",
       targetName: "",
-      targetAttack: "",
-      updatedChampion: {},
+      users: [],
+      userSearch: {},
+      targetAge: "",
+      updatedUser: {},
     };
   },
   methods: {
-    /* ... */
-    async getChampions() {
+    async getUsers() {
       const res = await axios.post("http://localhost:4000/graphql", {
         query: `{
-          getChampions {
+          getUsers {
             name
-            attackDamage
+            email
+            isMP
+            mobNum
+            IC
+            profPic
+            intro
+            gender
+            age
+            ADUN
+            isPrivate
           }
         }`,
       });
-      this.champions = res.data.data;
+      this.users = res.data.data;
     },
-    async getChampionByName() {
+    async getUserByName() {
       const res = await axios.post("http://localhost:4000/graphql", {
         query: `
-      query GetChampionByName($championName: String!) {
-        getChampionByName(name: $championName) {
-          name
-          attackDamage
+      query GetUserByName($userName: String!) {
+        getUserByName(name: $userName) {
+            name
+            email
+            isMP
+            mobNum
+            IC
+            profPic
+            intro
+            gender
+            age
+            ADUN
+            isPrivate
         }
       }`,
         variables: {
-          championName: "Ashe",
+          userName: "Ali",
         },
       });
-      this.championSearch = res.data.data.getChampionByName;
+      this.userSearch = res.data.data.getUserByName;
     },
-    async updateAttackDamage() {
+    async updateAge() {
       const res = await axios.post("http://localhost:4000/graphql", {
         query: `
-        mutation UpdateAttackDamage(
-          $championName: String!,  $attackDamage: Float) {
-          updateAttackDamage(name: $championName, attackDamage: $attackDamage) {
+        mutation UpdateAge(
+          $userName: String!,  $age: Int) {
+          updateAge(name: $userName, age: $age) {
             name
-            attackDamage
+            age
           }
         }`,
         variables: {
-          championName: this.targetName,
-          attackDamage: this.targetAttack,
+          userName: this.targetName,
+          age: this.targetAge,
         },
       });
-      this.updatedChampion = res.data.data.updateAttackDamage;
+      this.updatedUser = res.data.data.updateAge;
     },
   },
 };
