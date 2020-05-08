@@ -3,7 +3,7 @@ class User {
     name,
     email,
     isMP,
-    mobNum,
+    phone,
     IC,
     profPic,
     intro,
@@ -15,7 +15,7 @@ class User {
     this.name = name;
     this.email = email;
     this.isMP = isMP;
-    this.mobNum = mobNum;
+    this.phone = phone;
     this.IC = IC;
     this.profPic = profPic;
     this.intro = intro;

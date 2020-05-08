@@ -14,13 +14,15 @@ const schema = buildSchema(`
 
   type Mutation {
     updateAge(name: String!, age: Int): User
+    updateEmail(name: String!, email: String): User
+    updatePhone(name: String!, phone: String): User
   }
 
   type User{
     name: String
     email: String
     isMP: Boolean
-    mobNum: String
+    phone: String
     IC: String
     profPic: String
     intro: String
@@ -38,12 +40,25 @@ const users = [
     false,
     "012-345678",
     "860401113457",
-    "https://upload.wikimedia.org/wikipedia/commons/8/89/Muhammad_Ali_NYWTS.jpg",
-    "I am Ali",
+    "https://education.usm.my/images/gambarlect/PM-ALI-SAMSUDIN.jpg",
+    "I am Ali. I like to drink Coke. I want to become a programmer.",
     "Male",
     40,
     "PJ",
     false
+  ),
+  new User(
+    "Ahmad",
+    "ahmad123@gmail.com",
+    false,
+    "012-9783678",
+    "860401113457",
+    "https://pure.uniten.edu.my/files-asset/8786453/90010052.jpg?w=160&f=jpg",
+    "I am Ahmad. I like to eat fried chicken. I work in a university.",
+    "Male",
+    30,
+    "PJ",
+    true
   ),
 ];
 
@@ -57,6 +72,16 @@ const rootValue = {
   updateAge: ({ name, age = 150 }) => {
     const user = users.find((x) => x.name === name);
     user.age = age;
+    return user;
+  },
+  updateEmail: ({ name, email }) => {
+    const user = users.find((x) => x.name === name);
+    user.email = email;
+    return user;
+  },
+  updatePhone: ({ name, phone }) => {
+    const user = users.find((x) => x.name === name);
+    user.phone = phone;
     return user;
   },
 };
