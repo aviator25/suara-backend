@@ -1,4 +1,4 @@
-# gqltest
+# User profile page
 
 ## Project setup
 ```
